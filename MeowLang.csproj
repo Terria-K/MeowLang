@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PublishAOT>true</PublishAOT>
     <AssemblyName>meowlang</AssemblyName>
     <TargetName>meowlang</TargetName>

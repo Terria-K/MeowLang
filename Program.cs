@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using MeowLang;
+unsafe {
 
 if (args.Length == 0) 
 {
@@ -14,7 +16,7 @@ using var fs = File.OpenText(input);
 
 string texts = fs.ReadToEnd();
 
-byte[] blocks = new byte[255];
+byte *blocks = (byte*)NativeMemory.AllocZeroed(255);
 
 var meow = new Word("meow");
 var woem = new Word("woem");
@@ -100,4 +102,7 @@ for (int i = 0; i < lines.Length; i++)
         }
     }
     lineNum++;
+}
+
+NativeMemory.Free(blocks);
 }
