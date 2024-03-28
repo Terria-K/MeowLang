@@ -26,6 +26,7 @@ var feed = new Word("feed");
 
 int lineNum = 0;
 int currentBlock = 0;
+bool commented = false;
 
 // Loops
 bool isLooping = false;
@@ -42,31 +43,31 @@ for (int i = 0; i < lines.Length; i++)
 
         switch (c) 
         {
-        case ':':
+        case ':' when !commented:
             if (currentBlock == 254)
                 currentBlock = 0;
             else
                 currentBlock++;
             break;
-        case '3':
+        case '3' when !commented:
             if (currentBlock == 0)
                 currentBlock = 254;
             else
                 currentBlock--;
             break;
-        case 'm':
+        case 'm' when !commented:
             if (meow.IsCorrect(line, ref r, lineNum)) 
             {
                 blocks[currentBlock]++;
             }
             break;
-        case 'w':
+        case 'w' when !commented:
             if (woem.IsCorrect(line, ref r, lineNum)) 
             {
                 blocks[currentBlock]--;
             }
             break;
-        case 'p':
+        case 'p' when !commented:
             if (purr.IsCorrect(line, ref r, lineNum)) 
             {
                 currentColumn = r + 1;
@@ -74,13 +75,19 @@ for (int i = 0; i < lines.Length; i++)
                 isLooping = true;
             }
             break;
-        case 'f':
+        case 'f' when !commented:
             if (feed.IsCorrect(line, ref r, lineNum)) 
             {
                 Console.Write((char)blocks[currentBlock]);
             }
             break;
-        case 'r':
+        case '(' when !commented:
+            commented = true;
+            break;
+        case ')':
+            commented = false;
+            break;
+        case 'r' when !commented:
             if (rrup.IsCorrect(line, ref r, lineNum)) 
             {
                 if (!isLooping) 
